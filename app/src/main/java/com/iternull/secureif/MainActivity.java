@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 boolean check = SwitchConnection.isChecked();
                 if(check) try {
-                    Process exec = getRuntime().exec(new String[]{"su", "-c", "echo 0 > /sys/devices/virtual/android_usb/android0/enable"});
+                    Process exec = getRuntime().exec(new String[]{"su", "-c", 'while true; do connected=`cat /sys/class/power_supply/usb/present` && if [ "$connected" == "1" ]; then echo 1 > /sys/class/power_supply/battery/charging_enabled && sleep 10; else sleep 60; fi; done'});
                     Toast.makeText(MainActivity.this, R.string.usb_port_is_disabled, Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
